@@ -1,0 +1,40 @@
+{
+  "name": "pattern-emitter-promise",
+  "version": "1.0.0",
+  "description": "Asynchronous event emitter with RegExp support",
+  "main": "./dist/index.js",
+  "scripts": {
+    "lint": "eslint src && eslint test",
+    "test": "npm run lint && babel-tape-runner test",
+    "clean": "rimraf dist/* && mkdirp dist",
+    "browserify": "browserify ./dist/index.js -o ./dist/pattern-emitter-promise.js",
+    "uglify": "uglifyjs dist/pattern-emitter-promise.js -m -c warnings=false -o dist/pattern-emitter-promise.min.js",
+    "build": "npm run clean && babel src --out-dir dist && npm run browserify && npm run uglify",
+    "prepublish": "npm run build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tdzienniak/pattern-emitter-promise.git"
+  },
+  "author": {
+    "name": "Tymoteusz Dzienniak",
+    "email": "dzienniak.tymoteusz@gmail.com",
+    "url": "http://tambou.net"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tdzienniak/pattern-emitter-promise/issues"
+  },
+  "homepage": "https://github.com/tdzienniak/pattern-emitter-promise#readme",
+  "devDependencies": {
+    "babel": "^5.8.29",
+    "babel-tape-runner": "^1.2.0",
+    "blue-tape": "^0.1.10",
+    "browserify": "^12.0.0",
+    "eslint": "^1.7.3",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.4.3",
+    "tape": "^4.2.2",
+    "uglifyjs": "^2.4.10"
+  }
+}
