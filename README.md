@@ -16,11 +16,12 @@ This lib has no external dependencies.
 
 In your code:
 ```javascript
-var EventEmitter = require('event-emitter-promise');
-var ee = EventEmitter();
+import EventEmitter from 'event-emitter-promise';
+
+let ee = EventEmitter();
 
 ee.on('fooBar', () => {
-    return Promise.resolve('fooBar1')
+    return Promise.resolve('fooBar1');
 });
 
 ee.on(/^foo/, (bar) => {
@@ -36,7 +37,7 @@ ee.emit('fooBar', 'Bar').then((results) => {
 });
 ```
 
-For more usage examples see tests.
+For more usage examples see [tests](https://github.com/tdzienniak/pattern-emitter-promise/tree/master/test).
 
 ## License
 MIT
