@@ -18,9 +18,24 @@ In your code:
 var EventEmitter = require('event-emitter-promise');
 var ee = EventEmitter();
 
-ee.on()
+ee.on('fooBar', () => {
+    return Promise.resolve('fooBar1')
+});
 
+ee.on(/^foo/, (bar) => {
+    return Promise.resolve('foo' + bar + '2');
+});
+
+ee.on('fooBar', () => {
+    return 'fooBar3'; //we support sync return too
+});
+
+ee.emit('fooBar', 'Bar').then((results) => {
+    results; // ['fooBar1', 'fooBar2', 'fooBar3']
+});
 ```
+
+For more usage examples see tests.
 
 ## License
 MIT
