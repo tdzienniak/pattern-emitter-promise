@@ -1,5 +1,6 @@
+[![Build Status](https://travis-ci.org/tdzienniak/pattern-emitter-promise.svg?branch=master)](https://travis-ci.org/tdzienniak/pattern-emitter-promise)
 # pattern-emitter-promise
-Asynchronous pattern emitter using Promises
+Asynchronous (with ES2015 Promises) event emitter supporting regex listeners
 
 ## Installation
 
