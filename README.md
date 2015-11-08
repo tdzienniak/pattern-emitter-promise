@@ -17,7 +17,7 @@ This lib has no external dependencies.
 
 In your code:
 ```javascript
-import EventEmitter from 'event-emitter-promise';
+import { EventEmitter } from 'event-emitter-promise';
 
 let ee = EventEmitter();
 
@@ -38,7 +38,7 @@ ee.emit('fooBar', 'Bar').then((results) => {
 });
 ```
 
-For more usage examples see [tests](https://github.com/tdzienniak/pattern-emitter-promise/tree/master/test).
+For more usage examples see [tests](https://github.com/tdzienniak/pattern-emitter-promise/tree/master/test) and read docs in the [code](https://github.com/tdzienniak/pattern-emitter-promise/tree/master/src/index.js).
 
 ## License
 MIT

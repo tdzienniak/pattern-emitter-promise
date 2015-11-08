@@ -1,6 +1,17 @@
-let localPromise = Promise;
+let localPromise;
+
+try {
+    localPromise = Promise;
+} catch (e) {}
 
 const EventEmitterPrototype = {
+    /**
+     * Emits the event.
+     *
+     * @param  {String} event   event name to emit
+     * @param  {Any}    ...args arguments to pass to event listeners
+     * @return {Promise}        Promise that will be resolved with array of results from all listeners
+     */
     emit (event, ...args) {
         let listeners = this.listeners(event);
         let listenersResults = [];
@@ -35,6 +46,14 @@ const EventEmitterPrototype = {
             return listenersResults;
         });
     },
+    /**
+     * Adds an event listener function.
+     *
+     * @param {String|RegExp}   event       event to listen to. Can be either string or regex. In the latter case listener will be invoked when its regex matches emited event name
+     * @param {Function}        fn          event listener callback
+     * @param {Boolean}         once=false  if `true` listener will be used only once and automatically removed
+     * @return {EventEmitter}   EventEmitter instance, may be used for method chaining
+     */
     addEventListener (event, fn, once) {
         this._listeners.push({
             fn,
@@ -45,17 +64,53 @@ const EventEmitterPrototype = {
 
         return this;
     },
-    once (event, listener) {
-        return this.addEventListener(event, listener, true);
+    /**
+     * Same as 'addEventListener' but with `once` flag set to `true`.
+     *
+     * @param  {String|RegExp}  event see `addEventListener`
+     * @param  {Function}       fn    see `addEventListener`
+     * @return {EventEmitter}         see `addEventListener`
+     */
+    once (event, fn) {
+        return this.addEventListener(event, fn, true);
     },
+    /**
+     * Remove event listener. If only event name is provided, all listeners with that name will be removed.
+     * Listeners are tested against event name using strict equality, so to remove event listener added
+     * with pattern, one has to provide referance to the regex object used to define that listener (see example).
+     *
+     * @example
+     * let r = /foo/;
+     *
+     * ee.on(r, () => {});
+     *
+     * ee.removeEventListener(/foo/); //listener not removed
+     * ee.removeEventListener(r); //listener succesfully removed
+     *
+     * @param  {String|RegExp}  event event name or pattern.
+     * @param  {Function}       fn    callback used to define listener
+     * @return {EventEmitter}         EventEmitter instance
+     */
     removeEventListener (event, fn) {
         this._listeners = this._listeners.filter(listener => listener.event !== event || (fn && listener.fn !== fn));
 
         return this;
     },
+    /**
+     * Removes all event listeners by name or pattern (see `removeEventListener`).
+     *
+     * @param  {String|RegExp}  event   event name
+     * @return {EventEmitter}           EventEmitter instance
+     */
     removeAllListeners (event) {
         return this.removeEventListener(event);
     },
+    /**
+     * Get listeners associated with event name.
+     *
+     * @param  {String} event   event name
+     * @return {Array}          array of listeners objects with `event`, `fn`, `once` and `isRegExp` properties
+     */
     listeners (event) {
         return this._listeners.filter((listener) => {
             if (listener.isRegExp) {
@@ -68,16 +123,24 @@ const EventEmitterPrototype = {
 };
 
 /**
- * Some aliases.
+ * An alias of `emit`.
  */
 EventEmitterPrototype.trigger = EventEmitterPrototype.emit;
+
+/**
+ * An alias of `addEventListener`.
+ */
 EventEmitterPrototype.on = EventEmitterPrototype.addEventListener;
+
+/**
+ * An alias of `removeEventListener`.
+ */
 EventEmitterPrototype.off = EventEmitterPrototype.removeEventListener;
 
 /**
  * This factory function returns new event emitter object.
  *
- * @return {Object} event emitter object
+ * @return {Object} event emitter instance
  */
 export const EventEmitter = () => {
     if (this instanceof EventEmitter) {
