@@ -1,5 +1,6 @@
 # pattern-emitter-promise
 [![Build Status](https://travis-ci.org/tdzienniak/pattern-emitter-promise.svg?branch=master)](https://travis-ci.org/tdzienniak/pattern-emitter-promise)
+[![npm version](https://badge.fury.io/js/pattern-emitter-promise.svg)](https://badge.fury.io/js/pattern-emitter-promise)
 
 Asynchronous (using ES2015 Promises) event emitter supporting regex listeners
 
