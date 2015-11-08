@@ -1,5 +1,4 @@
-#Build directory
-dist
+dist/index.js
 
 # Logs
 logs
