@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "lint": "eslint src && eslint test",
-    "test": "babel-tape-runner test",
+    "test": "babel-tape-runner test | tap-spec",
     "clean": "rimraf dist/* && mkdirp dist",
     "browserify": "browserify ./dist/index.js -o ./dist/pattern-emitter-promise.js",
     "uglify": "uglifyjs dist/pattern-emitter-promise.js -m -c warnings=false -o dist/pattern-emitter-promise.min.js",
