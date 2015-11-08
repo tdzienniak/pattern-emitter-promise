@@ -2,7 +2,7 @@ let localPromise = Promise;
 
 const EventEmitterPrototype = {
     emit (event, ...args) {
-        let listeners = this._getMatchingListeners(event);
+        let listeners = this.listeners(event);
         let listenersResults = [];
 
         if (!listeners.length) {
@@ -10,14 +10,14 @@ const EventEmitterPrototype = {
         }
 
         return listeners.reduce((prevListenerPromise, currentListener) => {
+            if (currentListener.once) {
+                this.removeEventListener(currentListener.event, currentListener.fn);
+            }
+
             return prevListenerPromise.then((prevListenerResult) => {
                 listenersResults.push(prevListenerResult);
 
                 let currentListenerResult = currentListener.fn(...args);
-
-                if (listener.once) {
-                    this.removeEventListener(listener.event, listener.fn);
-                }
 
                 //this code handles synchronous (not returning Promise) and asynchronous listeners
                 if (typeof currentListenerResult === 'object' && typeof currentListenerResult.then === 'function') {
@@ -36,18 +36,12 @@ const EventEmitterPrototype = {
         });
     },
     addEventListener (event, fn, once) {
-        const existingListeners = this._listeners.get(event);
-        const listenerObject = {
+        this._listeners.push({
             fn,
             once,
-            event
-        };
-
-        if (existingListeners == null) {
-            this._listeners.set(event, [listenerObject]);
-        } else {
-            existingListeners.push(listenerObject);
-        }
+            event,
+            isRegExp: Object.prototype.toString.call(event) === '[object RegExp]'
+        })
 
         return this;
     },
@@ -55,40 +49,21 @@ const EventEmitterPrototype = {
         return this.addEventListener(event, listener, true);
     },
     removeEventListener (event, fn) {
-        if (!fn) {
-            this._listeners.set(event, []);
-        } else {
-            const listeners = this._listeners.get(event);
-            const index = listeners.findIndex(listener => listener.fn === fn);
-
-            if (index !== -1) {
-                listeners.splice(index, 1);
-            }
-        }
+        this._listeners = this._listeners.filter(listener => listener.event !== event || (fn && listener.fn !== fn));
 
         return this;
     },
     removeAllListeners (event) {
         return this.removeEventListener(event);
     },
-    _getMatchingListeners (event) {
-        const matchingListeners = [];
-
-        for (let [pattern, listeners] of this._listeners) {
-            let matching = false;
-
-            if (Object.prototype.toString.call(pattern) === '[object RegExp]') {
-                matching = pattern.test(event);
+    listeners (event) {
+        return this._listeners.filter((listener) => {
+            if (listener.isRegExp) {
+                return listener.event.test(event);
             } else {
-                matching = pattern === event;
+                return listener.event === event;
             }
-
-            if (matching) {
-                matchingListeners.push(...listeners);
-            }
-        }
-
-        return matchingListeners;
+        });
     }
 };
 
@@ -104,14 +79,14 @@ EventEmitterPrototype.off = EventEmitterPrototype.removeEventListener;
  *
  * @return {Object} event emitter object
  */
-const EventEmitter = () => {
+export const EventEmitter = () => {
     if (this instanceof EventEmitter) {
         console.warn(`This is a factory function, it cannot be used with 'new'.`);
 
         return;
     }
 
-    if (!localPromise || Object.prototype.toString.call(localPromise.resolve()) !== '[object Promise]') {
+    if (!localPromise || Object.prototype.toString.call(localPromise.resolve()) !== '[object Object]' || Object.prototype.toString.call(localPromise.resolve().then) !== '[object Function]') {
         console.warn(
             `Promise is not available in this context. You have to either set Promise
             library with 'setPromiseLibrary' static method or use runtime with built-in
@@ -123,10 +98,7 @@ const EventEmitter = () => {
 
     let ee = Object.create(EventEmitterPrototype);
 
-    ee._listeners = new Map();
-
-    ee._stringListeners = {};
-    ee._regexListeners = new Map();
+    ee._listeners = [];
 
     return ee;
 };
