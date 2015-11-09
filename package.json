@@ -2,6 +2,7 @@
   "name": "pattern-emitter-promise",
   "version": "1.0.1",
   "description": "Asynchronous event emitter with RegExp support",
+  "keywords": ["pattern", "event", "emitter", "regular", "expression", "regex", "promise", "async"],
   "main": "./dist/index.js",
   "scripts": {
     "lint": "eslint src && eslint test",
