@@ -1,6 +1,6 @@
 {
   "name": "pattern-emitter-promise",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Asynchronous event emitter with RegExp support",
   "keywords": ["pattern", "event", "emitter", "regular", "expression", "regex", "promise", "async"],
   "main": "./dist/index.js",
