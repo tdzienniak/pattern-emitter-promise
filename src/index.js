@@ -143,12 +143,6 @@ EventEmitterPrototype.off = EventEmitterPrototype.removeEventListener;
  * @return {Object} event emitter instance
  */
 export const EventEmitter = () => {
-    if (this instanceof EventEmitter) {
-        console.warn(`This is a factory function, it cannot be used with 'new'.`);
-
-        return;
-    }
-
     if (!localPromise || Object.prototype.toString.call(localPromise.resolve()) !== '[object Object]' || Object.prototype.toString.call(localPromise.resolve().then) !== '[object Function]') {
         console.warn(
             `Promise is not available in this context. You have to either set Promise
@@ -161,6 +155,7 @@ export const EventEmitter = () => {
 
     let ee = Object.create(EventEmitterPrototype);
 
+    //instance own property
     ee._listeners = [];
 
     return ee;

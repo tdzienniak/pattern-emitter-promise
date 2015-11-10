@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-function _instanceof(left, right) { if (right != null && right[Symbol.hasInstance]) { return right[Symbol.hasInstance](left); } else { return left instanceof right; } }
-
 function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 var localPromise = undefined;
@@ -168,12 +166,6 @@ EventEmitterPrototype.off = EventEmitterPrototype.removeEventListener;
  * @return {Object} event emitter instance
  */
 var EventEmitter = exports.EventEmitter = function EventEmitter() {
-    if (_instanceof(undefined, EventEmitter)) {
-        console.warn('This is a factory function, it cannot be used with \'new\'.');
-
-        return;
-    }
-
     if (!localPromise || Object.prototype.toString.call(localPromise.resolve()) !== '[object Object]' || Object.prototype.toString.call(localPromise.resolve().then) !== '[object Function]') {
         console.warn('Promise is not available in this context. You have to either set Promise\n            library with \'setPromiseLibrary\' static method or use runtime with built-in\n            Promise constructor (newest node.js or any modern browser).');
 
@@ -182,6 +174,7 @@ var EventEmitter = exports.EventEmitter = function EventEmitter() {
 
     var ee = Object.create(EventEmitterPrototype);
 
+    //instance own property
     ee._listeners = [];
 
     return ee;
