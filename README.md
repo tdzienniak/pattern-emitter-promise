@@ -12,7 +12,7 @@ npm install pattern-emitter-promise
 ```
 and you are ready.
 
-This lib has no external dependencies.
+This lib has no external dependencies. Library should be used in environment with Promise global constructor. If there is no such constructor (node 0.10 and earlier or some older browsers), Promise library must be set before first instantiation using `setPromiseLibrary` static method.
 
 ## Usage
 
