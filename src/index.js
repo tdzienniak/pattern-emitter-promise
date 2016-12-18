@@ -28,7 +28,11 @@ const EventEmitterPrototype = {
             return prevListenerPromise.then((prevListenerResult) => {
                 listenersResults.push(prevListenerResult);
 
-                let currentListenerResult = currentListener.fn(...args);
+                try{
+                    let currentListenerResult = currentListener.fn(...args);
+                }catch(e){
+                    return Promise.reject(e);   
+                }
 
                 //this code handles synchronous (not returning Promise) and asynchronous listeners
                 if (typeof currentListenerResult === 'object' && typeof currentListenerResult.then === 'function') {
