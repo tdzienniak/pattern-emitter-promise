@@ -2,7 +2,16 @@
   "name": "pattern-emitter-promise",
   "version": "1.0.3",
   "description": "Asynchronous event emitter with RegExp support",
-  "keywords": ["pattern", "event", "emitter", "regular", "expression", "regex", "promise", "async"],
+  "keywords": [
+    "pattern",
+    "event",
+    "emitter",
+    "regular",
+    "expression",
+    "regex",
+    "promise",
+    "async"
+  ],
   "main": "./dist/index.js",
   "scripts": {
     "lint": "eslint src && eslint test",
@@ -29,18 +38,18 @@
   },
   "homepage": "https://github.com/tdzienniak/pattern-emitter-promise#readme",
   "devDependencies": {
-    "babel-cli": "^6.0.15",
-    "babel-preset-es2015": "^6.0.15",
-    "babel-tape-runner": "^1.3.0",
-    "blue-tape": "^0.1.10",
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-tape-runner": "^2.0.1",
     "bluebird": "^3.0.5",
+    "browserify": "^13.1.1",
     "eslint": "^3.12.2",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.2.0",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.4.3",
     "tap-spec": "^4.1.0",
-    "tape": "^4.2.2",
+    "tape": "^4.6.3",
     "uglifyjs": "^2.4.10"
   }
 }
