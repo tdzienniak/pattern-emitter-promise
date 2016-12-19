@@ -144,13 +144,10 @@ EventEmitterPrototype.off = EventEmitterPrototype.removeEventListener;
  */
 export const EventEmitter = () => {
     if (!localPromise || Object.prototype.toString.call(localPromise.resolve()) !== '[object Object]' || Object.prototype.toString.call(localPromise.resolve().then) !== '[object Function]') {
-        console.warn(
+    throw new Error(
             `Promise is not available in this context. You have to either set Promise
             library with 'setPromiseLibrary' static method or use runtime with built-in
-            Promise constructor (newest node.js or any modern browser).`
-        );
-
-        return;
+      Promise constructor (newest node.js or any modern browser).`);
     }
 
     let ee = Object.create(EventEmitterPrototype);
