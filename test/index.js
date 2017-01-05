@@ -223,3 +223,17 @@ test('Remove all event listeners (RegExp).', (t) => {
   t.equal(e.listeners('foo').length, 1, 'should return array with remaining listeners after removal');
   t.end();
 });
+
+test('Sync error in listener.', (t) => {
+  const e = EventEmitter();
+
+  const err = new Error();
+
+  e.on('foo', () => {
+    throw err;
+  });
+
+  e.emit('foo').catch((expectedErr) => {
+    t.equal(expectedErr, err, 'should reject if sync error was thrown');
+  }).then(() => t.end());
+});
