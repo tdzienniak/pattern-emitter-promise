@@ -1,6 +1,6 @@
 {
   "name": "pattern-emitter-promise",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Asynchronous event emitter with RegExp support",
   "keywords": [
     "pattern",

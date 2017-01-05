@@ -45,7 +45,13 @@ var EventEmitterPrototype = {
       return prevListenerPromise.then(function (prevListenerResult) {
         listenersResults.push(prevListenerResult);
 
-        var currentListenerResult = currentListener.fn.apply(currentListener, args);
+        var currentListenerResult = void 0;
+
+        try {
+          currentListenerResult = currentListener.fn.apply(currentListener, args);
+        } catch (e) {
+          return localPromise.reject(e);
+        }
 
         // this code handles synchronous (not returning Promise) and asynchronous listeners
         if ((typeof currentListenerResult === 'undefined' ? 'undefined' : _typeof(currentListenerResult)) === 'object' && typeof currentListenerResult.then === 'function') {
